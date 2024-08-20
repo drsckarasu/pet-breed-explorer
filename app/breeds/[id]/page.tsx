@@ -6,7 +6,7 @@ export async function generateStaticParams() {
     const dogs = await fetch(`https://api.thedogapi.com/v1/breeds`).then((res) => res.json());
     const cats = await fetch(`https://api.thecatapi.com/v1/breeds`).then((res) => res.json());
     const breeds = [...dogs, ...cats];
-    return breeds.map((breed) => ({
+    return breeds.filter((img) => img?.reference_image_id != null).map((breed) => ({
         id: breed.id.toString(),
     }))
 };
