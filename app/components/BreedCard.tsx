@@ -11,9 +11,8 @@ interface Breed {
 
 export default function BreedCard({ breed: {name, id , referenceUrl} }: any = {}) {
     const router = useRouter();
-    const breedName = name.toLowerCase().replace(/[\])}[{(]/g, '').split(' ').join('_');
     const handleCick = () => {
-        router.push(`/breeds/${breedName}+${id}`);
+        router.push(`/breeds/${id}`);
     }
     return (
         <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">

@@ -2,9 +2,17 @@ import { getCatDogBreed, getCatDogBreedImages } from "../../actions/getCatDogBre
 import Image from "next/image";
 import { notFound } from 'next/navigation';
 
-export default async function Breed ({params}: {params: {name: string} }) {
-    const id = params.name.split('%2B')[1];
-    const breedId = !Number.isNaN(Number(id)) ? +id : id;
+export async function generateStaticParams() {
+    const dogs = await fetch(`https://api.thedogapi.com/v1/breeds`).then((res) => res.json());
+    const cats = await fetch(`https://api.thecatapi.com/v1/breeds`).then((res) => res.json());
+    const breeds = [...dogs, ...cats];
+    return breeds.map((breed) => ({
+        id: breed.id.toString(),
+    }))
+};
+
+export default async function Breed ({params}: {params: {id: string} }) {
+    const breedId = !Number.isNaN(Number(params.id)) ? +params.id : params.id;
     const breed = await getCatDogBreed(breedId);
     const breedImages = await getCatDogBreedImages(breedId);
     const titleImg = breedImages.shift();
