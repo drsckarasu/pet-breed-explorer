@@ -24,7 +24,7 @@ export default function BreedList({ initialBreeds }: any) {
         if (inView || searchStatus.length > 0) {
           loadMoreBreeds();
         }
-    }, [inView, breeds, searchStatus]);
+    }, [inView, breeds, searchStatus, setPage, setBreeds]);
 
 
     return (
