@@ -13,13 +13,14 @@ export default function BreedList({ initialBreeds }: any) {
     const [searchStatus, setSearchStatus] = useState('');
     const { ref, inView } = useInView();
 
-    const loadMoreBreeds = async () => {
+    
+
+    useEffect(() => {
+      const loadMoreBreeds = async () => {
         const apiBreeds = await getCatDogBreedsLimit(page, NUMBER_OF_BREEDS_TO_FETCH);
         setBreeds([...breeds, ...apiBreeds]);
         setPage(page + 1);
       };
-
-    useEffect(() => {
         if (inView || searchStatus.length > 0) {
           loadMoreBreeds();
         }
