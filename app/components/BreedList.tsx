@@ -21,10 +21,10 @@ export default function BreedList({ initialBreeds }: any) {
         setBreeds([...breeds, ...apiBreeds]);
         setPage(page + 1);
       };
-        if (inView || searchStatus.length > 0) {
+        if (inView) {
           loadMoreBreeds();
         }
-    }, [inView, searchStatus]);
+    }, [inView]);
     return (
       <div className='flex flex-col gap-3'>
         <Search searchStatus={searchStatus} setSearchStatus={setSearchStatus}></Search>
