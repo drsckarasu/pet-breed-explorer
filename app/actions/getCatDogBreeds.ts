@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 
-const getReferenceImgUrl = async (id: string | number, referenceId: string) => {
-    const referenceUrlResponse = await fetch(`https://api.the${typeof id === 'number' ? 'dog' : 'cat'}api.com/v1/images/${referenceId}`);
+const getReferenceImgUrl = async (type: string , referenceId: string) => {
+    const referenceUrlResponse = await fetch(`https://api.the${type}api.com/v1/images/${referenceId}`);
     const dataReferenceUrl = await referenceUrlResponse.json();
     return dataReferenceUrl.url;
 }
@@ -17,7 +17,12 @@ export const getCatDogBreedsLimit = async (page: number, limit: number) => {
         const data = [...dataDog, ...dataCat];
         const dataStored = data.filter((img) => img?.reference_image_id != null).sort((a, b) => 0.5 - Math.random());
         for (let value of dataStored) {
-            value.referenceUrl = await getReferenceImgUrl(value.id, value.reference_image_id);
+            if (typeof value.id === 'number') {
+                value.type = 'dog';
+            } else {
+                value.type = 'cat';
+            }
+            value.referenceUrl = await getReferenceImgUrl(value.type, value.reference_image_id);
         }
         return dataStored;
     } catch (error: unknown) {
@@ -26,10 +31,10 @@ export const getCatDogBreedsLimit = async (page: number, limit: number) => {
     }
 };
 
-export const getCatDogBreedImages = async (id: number | string) => {
+export const getCatDogBreedImages = async (type: string, id: number | string) => {
     try {
         const API_KEY = 'live_A6UQNIp4S1Oer1v9RcOClXAuLhAfyDOpMGvk06vpOc2q5dHlu8LyTLULNUPaXgze';
-        const urlCatDogBreedImages = `https://api.the${typeof id === 'number' ? 'dog' : 'cat'}api.com/v1/images/search?limit=10&breed_ids=${id}&api_key=${API_KEY}`;
+        const urlCatDogBreedImages = `https://api.the${type}api.com/v1/images/search?limit=10&breed_ids=${id}&api_key=${API_KEY}`;
         const responseCatDogBreedImages = await fetch(urlCatDogBreedImages);
         const dataCatDogBreedImages = await responseCatDogBreedImages.json();
         return dataCatDogBreedImages;
@@ -38,9 +43,9 @@ export const getCatDogBreedImages = async (id: number | string) => {
     }
 };
 
-export const getCatDogBreed = async (id: number | string) => {
+export const getCatDogBreed = async (type: string, id: number | string) => {
     try {
-        const urlCatDogBreed = `https://api.the${typeof id === 'number' ? 'dog' : 'cat'}api.com/v1/breeds/${id}`;
+        const urlCatDogBreed = `https://api.the${type}api.com/v1/breeds/${id}`;
         const responseCatDogBreed = await fetch(urlCatDogBreed);
         const dataCatDogBreed = await responseCatDogBreed.json();
         return dataCatDogBreed;

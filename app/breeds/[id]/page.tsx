@@ -6,17 +6,17 @@ export async function generateStaticParams() {
     const dogs = await fetch(`https://api.thedogapi.com/v1/breeds`).then((res) => res.json());
     const cats = await fetch(`https://api.thecatapi.com/v1/breeds`).then((res) => res.json());
     const breeds = [...dogs, ...cats];
+    
     return breeds.filter((img) => img?.reference_image_id != null).map((breed) => ({
         id: breed.id.toString(),
     }))
 };
 
 export default async function Breed ({params}: {params: {id: string} }) {
-    const breedId = !Number.isNaN(Number(params.id)) ? +params.id : params.id;
-    const breed = await getCatDogBreed(breedId);
-    const breedImages = await getCatDogBreedImages(breedId);
+    const breedType = !Number.isNaN(Number(params.id)) ? 'dog' : 'cat';
+    const breed = await getCatDogBreed(breedType, params.id);
+    const breedImages = await getCatDogBreedImages(breedType, params.id);
     const titleImg = breedImages.shift();
-
     if (!breed  || !breedImages) {
         notFound();
     }
