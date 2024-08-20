@@ -24,7 +24,7 @@ export default function BreedList({ initialBreeds }: any) {
         if (inView || searchStatus.length > 0) {
           loadMoreBreeds();
         }
-    }, [inView, breeds, setPage, searchStatus]);
+    }, [inView, searchStatus]);
     return (
       <div className='flex flex-col gap-3'>
         <Search searchStatus={searchStatus} setSearchStatus={setSearchStatus}></Search>
