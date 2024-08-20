@@ -14,7 +14,7 @@ export const getCatDogBreedsLimit = async (page: number, limit: number) => {
         const dataDog = await responseDog.json();
         const responseCat = await fetch(urlCat);
         const dataCat = await responseCat.json();
-        const data = [...dataDog, ...dataCat];
+        const data = [...dataCat, ...dataDog];
         const dataStored = data.filter((img) => img?.reference_image_id != null).sort((a, b) => 0.5 - Math.random());
         for (let value of dataStored) {
             if (typeof value.id === 'number') {

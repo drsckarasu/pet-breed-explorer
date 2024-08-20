@@ -20,7 +20,7 @@ export default async function Breed ({params}: {params: {id: string} }) {
     if (!breed  || !breedImages) {
         notFound();
     }
-
+    console.log(111, breed, breedImages)
     return (
         <div className="bg-gray-100 dark:bg-gray-800 py-8 mt-8">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
